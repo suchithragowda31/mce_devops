@@ -10,7 +10,7 @@ const s3 = new AWS.S3();
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/images', async (req, res) => {
-    const bucketName = 'your-s3-bucket-name';
+    const bucketName = 'devops-mce';
     const params = { Bucket: bucketName };
 
     try {
