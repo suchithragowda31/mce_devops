@@ -1,11 +1,11 @@
 # Stage 1: Build the React app
-FROM node:20 AS build
+FROM node:14 AS build
 
 WORKDIR /app
-COPY client/package.json client/package-lock.json ./
-RUN npm install
-COPY client ./
-RUN npm run build
+COPY client/package.json client/package-lock.json ./client/
+RUN cd client && npm install
+COPY client ./client/
+RUN cd client && npm run build
 
 # Stage 2: Serve the built app with Node.js
 FROM node:14
@@ -13,8 +13,9 @@ FROM node:14
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
+
 COPY server.js ./
-COPY --from=build /app/build ./client/build
+COPY --from=build /app/client/build ./client/build
 
 EXPOSE 3000
 
